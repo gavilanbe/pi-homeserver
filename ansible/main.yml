@@ -2,9 +2,37 @@
 - hosts: pi  # Target hosts group defined in your ansible/hosts file
   become: yes  # Run tasks as sudo
   tasks:
+    # Basic Setup
     - name: Update and upgrade apt packages  # Task 1
       apt:
         update_cache: yes
         upgrade: yes
+
+    # Security Hardening
+    - name: Disable root SSH access  # Task 2
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: '^PermitRootLogin'
+        line: 'PermitRootLogin no'
+        state: present
+
+    - name: Install Fail2Ban  # Task 3
+      apt:
+        name: fail2ban
+        state: present
+
+    - name: Install UFW  # Task 4
+      apt:
+        name: ufw
+        state: present
+
+    - name: Enable UFW  # Task 5
+      ufw:
+        state: enabled
+
+    - name: Install unattended-upgrades  # Task 6
+      apt:
+        name: unattended-upgrades
+        state: present
 
     # Add more tasks here
