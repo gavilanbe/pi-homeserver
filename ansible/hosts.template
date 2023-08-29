@@ -1,0 +1,3 @@
+# ansible/hosts.template
+[pi]
+your-hostname-here ansible_user=your-user-here
