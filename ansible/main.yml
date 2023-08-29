@@ -1,0 +1,10 @@
+---
+- hosts: pi  # Target hosts group defined in your ansible/hosts file
+  become: yes  # Run tasks as sudo
+  tasks:
+    - name: Update and upgrade apt packages  # Task 1
+      apt:
+        update_cache: yes
+        upgrade: yes
+
+    # Add more tasks here
