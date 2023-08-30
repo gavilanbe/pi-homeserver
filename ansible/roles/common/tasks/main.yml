@@ -1,5 +1,23 @@
 ---
+# Update and upgrade the apt package list to keep the system updated
 - name: Update and upgrade apt packages
   apt:
     update_cache: yes
     upgrade: yes
+
+# Add cgroup settings required for k3s to function properly on Raspberry Pi
+# k3s relies on cgroups for resource management and these settings ensure that cgroup memory is enabled
+# This is necessary for containers to have memory limits imposed on them
+- name: Update /boot/cmdline.txt for cgroup memory and cgroup enable
+  lineinfile:
+    path: /boot/cmdline.txt
+    line: 'cgroup_enable=memory cgroup_memory=1'
+    insertafter: EOF
+    state: present
+  register: cmdline_config  # Register the change to know if a reboot is needed
+
+# If changes were made to /boot/cmdline.txt, a reboot is required for them to take effect
+# This step ensures that if changes are made, the system will be rebooted automatically
+- name: Reboot if cmdline.txt was changed
+  reboot:
+  when: cmdline_config is changed
