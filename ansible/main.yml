@@ -5,3 +5,4 @@
     - common
     - security
     - docker
+    - k3s
