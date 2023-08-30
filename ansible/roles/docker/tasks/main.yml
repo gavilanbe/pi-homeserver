@@ -32,7 +32,7 @@
 # Add Docker repository and update apt cache (Debian)
 - name: Add Docker repository and update apt cache
   apt_repository:
-    repo: "deb [arch=armhf] https://download.docker.com/linux/debian bullseye stable"
+    repo: "deb [arch=arm64] https://download.docker.com/linux/debian bullseye stable"
     state: present
   notify:
     - Update apt cache
